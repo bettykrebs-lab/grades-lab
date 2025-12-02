@@ -63,5 +63,19 @@ students |>
   ggplot(aes(x = group, y = count)) + 
     geom_bar(stat = "identity")
 ```
+#Question 6 
+```{r}
+students |>
+  group_by(group, sex) |>
+  summarise(count = n(), .groups = 'drop') |>
+  ggplot(aes(x = group, y = count, fill = sex)) +
+  geom_bar(stat = "identity", position = "stack") +
+  
+  labs(title = "Students Per Group, Stacked by Sex",
+       x = "Group",
+       y = "Count",
+       fill = "Sex") +
+  theme_minimal()
+```
 
 
