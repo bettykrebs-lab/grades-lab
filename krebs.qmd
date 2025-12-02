@@ -3,5 +3,16 @@ title: "krebs"
 author: "Betty Krebs"
 format: html
 ---
+```{r}
+here::i_am("grades-lab.Rproj")
+library(here)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(vroom)
+```
 
+```{r}
+course <- vroom("C:/Users/bkreb/OneDrive/Documents/grades-lab/courses.csv")
+```
 
