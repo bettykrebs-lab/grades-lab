@@ -45,6 +45,14 @@ knitr::kable(final_data)
 
 ```{r}
 students <- read.csv("students.csv", 
-                 colClasses = c(id = "integer", group = "factor", birth_date = "character", sex = "character"))
+                 colClasses = c(id = "integer", group = "factor", birth_date = "character", sex = "factor"))
+students <- students |>
+  mutate(birth_date = as.Date(birth_date, format = "%Y-%m-%d"))
 ```
+
+#Question 4 : grades 
+```{r}
+grades <-vroom("C:/Users/bkreb/OneDrive/Documents/grades-lab/grades.csv", delim = "|",na = "_")
+```
+
 
