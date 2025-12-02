@@ -101,5 +101,27 @@ students |>
        y = "Number of Students") +
   theme_minimal()
 ```
+#Question 8 
+```{r}
+students |>
+  group_by(group, birth_date)|>
+  summarise(median_age = median(birth_date))
+knitr::kable(stat= "identity")
+```
 
+```{r}
+students_median_age <- students |>
+  mutate(
+    age = time_length(interval(birth_date, today()), unit = "year")
+  ) |>
+  group_by(group) |>
+  summarise(
+    median_age = median(age),
+    .groups = 'drop'
+  ) |>
+  mutate(
+    median_age = round(median_age, 1)
+  )
+knitr::kable(students_median_age, caption = "Median Age of Students Per Group")
+```
 
