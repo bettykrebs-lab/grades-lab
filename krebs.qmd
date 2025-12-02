@@ -120,3 +120,120 @@ students_median_age <- students |>
 knitr::kable(students_median_age, caption = "Median Age of Students Per Group")
 ```
 
+#Question 9
+ 
+```{r}
+oldest_students_per_group <- students |>
+  mutate(
+    age = time_length(interval(birth_date, today()), unit = "year")
+  ) |>
+  group_by(group) |>
+  slice_min(birth_date, with_ties = FALSE) |> ##minimum birth date = oldest student
+  select(id, group, sex, age) |>
+  arrange(desc(age)) |>
+  mutate(
+    age = round(age, 1)
+  )
+
+knitr::kable(
+  oldest_students_per_group, 
+  caption = "Oldest Student in Each Group, Sorted by Age"
+)
+```
+
+#Question 10
+
+Code which does not work
+```{r}
+grades <- "grades.csv"
+id_cols_to_exclude <- c("id", "birth_date", "sex", "group")
+id_cols <- c("id", "course_id", "grade")
+
+# Loading again the grades.csv since the following code did not work otherwise
+students <- vroom(
+  file_name,
+  delim = "|", 
+  na = "_", 
+  col_types = "ifd61559", # Adjust the 'd' count to match your number of grade columns
+  show_col_types = FALSE) # Hide the type specification message
+
+
+total_grades <- students |>
+  select(!all_of(id_cols)) |>
+  pivot_longer(
+    cols = everything(), 
+    names_to = "exam", 
+    values_to = "grade"
+  ) |>
+  filter(!is.na(grade)) |>
+  nrow()
+
+```
+
+```{r}
+total_grades <- students |>
+  select(!all_of(id_cols)) |>
+  pivot_longer(
+    cols = everything(), 
+    names_to = "exam", 
+    values_to = "grade"
+  ) |>
+  filter(!is.na(grade)) |>
+  nrow()
+```
+
+
+#Question 11
+```{r}
+grade_column_name <- "Martial.Arts.and.Self.Defense" 
+
+average_grades_by_group <- students |>
+  group_by(group) |>
+  summarise(
+    average_grade = mean(!!sym(grade_column_name), na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+average_grades_by_group |>
+  ggplot(aes(x = group, y = average_grade, fill = group)) +
+  geom_col() +
+  
+  labs(
+    title = paste("Average Grade in", gsub("\\.", " ", grade_column_name), "by Group"),
+    x = "Student Group",
+    y = "Average Grade"
+  ) +
+  theme_minimal()
+```
+
+#Question 12 : distribution of the grades of the 2 modules 
+
+```{r}
+grades_course <- left_join(grades, course, by = "course_id")
+grades_course |>
+  ggplot(aes(x = module, y = grade, fill = module)) +
+  
+  geom_boxplot(alpha = 0.7) +
+  
+  labs(
+    title = "Comparison of Grade Distributions Between Module 1 and Module 2",
+    x = "Module Number",
+    y = "Grade Value"
+  ) +
+  theme_minimal()
+```
+
+
+#Question 13
+
+```{r}
+grades |>
+  group_by(id) |>
+  summarise(
+    count = n(), 
+    .groups = 'drop'
+  )
+```
+
+
+
