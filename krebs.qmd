@@ -3,6 +3,9 @@ title: "krebs"
 author: "Betty Krebs"
 format: html
 ---
+
+Please find here the link to my Github repository : https://github.com/bettykrebs-lab/grades-lab.git
+
 ```{r}
 here::i_am("grades-lab.Rproj")
 library(here)
@@ -75,6 +78,27 @@ students |>
        x = "Group",
        y = "Count",
        fill = "Sex") +
+  theme_minimal()
+```
+#Question 7 : distribution of the age of students
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+students |>
+  mutate(
+    age = time_length(interval(birth_date, today()), unit = "year"),
+    age_integer = as.integer(round(age)) 
+  ) |>
+  group_by(age_integer) |>
+  summarise(count = n(), .groups = 'drop') |>
+  ggplot(aes(x = age_integer, y = count)) +
+  geom_bar(stat = "identity")
+  labs(title = "Distribution of Student Age",
+       x = "Age (Years)",
+       y = "Number of Students") +
   theme_minimal()
 ```
 
