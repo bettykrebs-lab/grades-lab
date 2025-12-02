@@ -41,3 +41,10 @@ final_data <- sorted_data |>
 knitr::kable(final_data)
 ```
 
+#Question 3 : loading students
+
+```{r}
+students <- read.csv("students.csv", 
+                 colClasses = c(id = "integer", group = "factor", birth_date = "character", sex = "character"))
+```
+
