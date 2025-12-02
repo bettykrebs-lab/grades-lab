@@ -102,12 +102,7 @@ students |>
   theme_minimal()
 ```
 #Question 8 
-```{r}
-students |>
-  group_by(group, birth_date)|>
-  summarise(median_age = median(birth_date))
-knitr::kable(stat= "identity")
-```
+
 
 ```{r}
 students_median_age <- students |>
