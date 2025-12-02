@@ -55,4 +55,13 @@ students <- students |>
 grades <-vroom("C:/Users/bkreb/OneDrive/Documents/grades-lab/grades.csv", delim = "|",na = "_")
 ```
 
+#Question 5 : number of students per group 
+
+```{r}
+students |>
+  summarise(count = n(), .by = group) |> 
+  ggplot(aes(x = group, y = count)) + 
+    geom_bar(stat = "identity")
+```
+
 
