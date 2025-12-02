@@ -234,6 +234,10 @@ grades |>
     .groups = 'drop'
   )
 ```
+#Question 14 
+```{r}
+students_grades <- left_join(grades, students, by = "id")
+```
 
 
 
